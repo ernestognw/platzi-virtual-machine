@@ -5,10 +5,15 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "ts-node"
   },
   "devDependencies": {
     "@types/node": "^18.7.18",
     "typescript": "^4.8.3"
+  },
+  "dependencies": {
+    "@ethersproject/bytes": "^5.7.0",
+    "ts-node": "^10.9.1"
   }
 }
