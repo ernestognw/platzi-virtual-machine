@@ -4,4 +4,11 @@ class UnknownOpcode extends Error {}
 
 class InvalidProgramCounterIndex extends Error {}
 
-export { InvalidBytecode, UnknownOpcode, InvalidProgramCounterIndex };
+class InvalidJump extends Error {}
+
+export {
+  InvalidBytecode,
+  UnknownOpcode,
+  InvalidProgramCounterIndex,
+  InvalidJump,
+};

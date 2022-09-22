@@ -6,6 +6,7 @@ import Opcodes from "~/opcodes";
 import Instruction from "../instructions";
 import {
   InvalidBytecode,
+  InvalidJump,
   InvalidProgramCounterIndex,
   UnknownOpcode,
 } from "./errors";
@@ -68,6 +69,15 @@ class ExecutionContext {
     if (!instruction) throw new UnknownOpcode();
 
     return instruction;
+  }
+
+  private isValidJump(destination: bigint): boolean {
+    return this.code[Number(destination)] === Opcodes[0x5b].opcode;
+  }
+
+  public jump(destination: bigint) {
+    if (!this.isValidJump(destination)) throw new InvalidJump();
+    this.pc = Number(destination);
   }
 }
 

@@ -2,10 +2,6 @@ import { Mnemonic } from "~/opcodes/mnemonics";
 import { NotImplementedError } from "./errors";
 import ExecutionContext from "../execution";
 
-const defaultExecute = () => {
-  throw new NotImplementedError();
-};
-
 class Instruction {
   public readonly opcode: number;
   public readonly name: string;
@@ -14,7 +10,7 @@ class Instruction {
   constructor(
     opcode: number,
     name: Mnemonic,
-    execute: (context: ExecutionContext) => void = defaultExecute
+    execute: (context: ExecutionContext) => void
   ) {
     this.opcode = opcode;
     this.name = name;
