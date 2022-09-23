@@ -1,3 +1,4 @@
+import { Trie } from "@ethereumjs/trie";
 import { arrayify, hexlify, isHexString } from "@ethersproject/bytes";
 import Memory from "~/classes/memory";
 import Stack from "~/classes/stack";
@@ -14,9 +15,10 @@ class ExecutionContext {
   public memory: Memory;
   private pc: number;
   private stopped: boolean;
+  public storage: Trie;
   public output: bigint = BigInt(0);
 
-  constructor(code: string) {
+  constructor(code: string, storage: Trie) {
     if (!isHexString(code) || code.length % 2 !== 0)
       throw new InvalidBytecode();
     this.code = arrayify(code);
@@ -24,6 +26,7 @@ class ExecutionContext {
     this.memory = new Memory();
     this.pc = 0;
     this.stopped = false;
+    this.storage = storage;
   }
 
   public stop(): void {
@@ -50,6 +53,7 @@ class ExecutionContext {
     }
 
     console.log("Output:\t", hexlify(this.output));
+    console.log("Root:\t", hexlify(this.storage.root()));
   }
 
   private fetchInstruction(): Instruction {
