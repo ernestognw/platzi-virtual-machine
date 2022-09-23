@@ -18,6 +18,7 @@ class ExecutionContext {
   private pc: number;
   private stopped: boolean;
   public storage: Trie;
+  public readonly originalStorage: Trie;
   public output: bigint = BigInt(0);
   public gas: bigint;
 
@@ -30,6 +31,7 @@ class ExecutionContext {
     this.pc = 0;
     this.stopped = false;
     this.storage = storage;
+    this.originalStorage = storage.copy();
     this.gas = gas;
   }
 
