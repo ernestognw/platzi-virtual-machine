@@ -8,6 +8,7 @@ import {
   InvalidBytecode,
   InvalidJump,
   InvalidProgramCounterIndex,
+  OutOfGas,
   UnknownOpcode,
 } from "./errors";
 class ExecutionContext {
@@ -18,8 +19,9 @@ class ExecutionContext {
   private stopped: boolean;
   public storage: Trie;
   public output: bigint = BigInt(0);
+  public gas: bigint;
 
-  constructor(code: string, storage: Trie) {
+  constructor(code: string, gas: bigint, storage: Trie) {
     if (!isHexString(code) || code.length % 2 !== 0)
       throw new InvalidBytecode();
     this.code = arrayify(code);
@@ -28,6 +30,7 @@ class ExecutionContext {
     this.pc = 0;
     this.stopped = false;
     this.storage = storage;
+    this.gas = gas;
   }
 
   public stop(): void {
@@ -43,10 +46,13 @@ class ExecutionContext {
   public async run() {
     while (!this.stopped) {
       const currentPc = this.pc;
+      const currentGas = this.gas;
       const instruction = this.fetchInstruction();
-      await instruction.execute(this);
+      const { gasFee } = await instruction.execute(this);
 
-      console.info(`${instruction.name}\t@ pc=${currentPc}`);
+      console.info(
+        `${instruction.name}\t@ pc=${currentPc}\t gas=${currentGas}\t cost=${gasFee}`
+      );
 
       this.stack.print();
       this.memory.print();
@@ -78,6 +84,11 @@ class ExecutionContext {
   public jump(destination: bigint) {
     if (!this.isValidJump(destination)) throw new InvalidJump();
     this.pc = Number(destination);
+  }
+
+  public useGas(gasFee: number) {
+    this.gas -= BigInt(gasFee);
+    if (this.gas < 0) throw new OutOfGas();
   }
 }
 
