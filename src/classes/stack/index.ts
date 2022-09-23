@@ -1,6 +1,6 @@
+import { hexlify } from "@ethersproject/bytes";
 import { MAX_UINT256 } from "~/constants";
 import { InvalidStackValue, StackOverflow, StackUnderflow } from "./errors";
-
 class Stack {
   private readonly maxDepth;
   private stack: bigint[];
@@ -24,6 +24,13 @@ class Stack {
     if (value === undefined) throw new StackUnderflow();
 
     return value;
+  }
+
+  public print() {
+    console.log(
+      "Stack:\t",
+      this.stack.map((value) => hexlify(value))
+    );
   }
 }
 

@@ -1,3 +1,7 @@
 class InvalidBytecode extends Error {}
 
-export { InvalidBytecode };
+class UnknownOpcode extends Error {}
+
+class InvalidProgramCounterIndex extends Error {}
+
+export { InvalidBytecode, UnknownOpcode, InvalidProgramCounterIndex };
