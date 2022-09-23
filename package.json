@@ -2,13 +2,19 @@
   "name": "platzi-virtual-machine",
   "description": "A very simple yet powerful recreation of a virtualized stack-based machine",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./build/cli",
   "license": "MIT",
+  "bin": {
+    "pvm": "build/cli/index.js"
+  },
   "scripts": {
-    "build": "tsc",
-    "pvm": "ts-node ./src/cli"
+    "build": "rimraf ./build && tsc",
+    "pvm": "ts-node ./src/cli",
+    "gen:readme": "ts-node ./src/scripts/generate-readme"
   },
   "devDependencies": {
+    "@types/json2md": "^1.5.1",
+    "@types/module-alias": "^2.0.1",
     "@types/node": "^18.7.18",
     "typescript": "^4.8.3"
   },
@@ -18,12 +24,20 @@
     "@ethersproject/bytes": "^5.7.0",
     "abstract-level": "^1.0.3",
     "command-line-interface": "^5.0.0",
+    "json2md": "^2.0.0",
     "level": "^8.0.0",
     "memory-level": "^1.0.0",
     "module-alias": "^2.2.2",
+    "rimraf": "^3.0.2",
     "ts-node": "^10.9.1"
   },
-  "_moduleAliases": {
-    "~": "./src"
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ernestognw/platzi-virtual-machine.git"
+  },
+  "author": "Ernesto García <ernesto@openzeppelin.com>",
+  "bugs": {
+    "url": "https://github.com/ernestognw/platzi-virtual-machine/issues"
+  },
+  "homepage": "https://github.com/ernestognw/platzi-virtual-machine#readme"
 }

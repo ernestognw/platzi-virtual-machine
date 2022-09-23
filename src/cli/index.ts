@@ -1,4 +1,10 @@
-import "module-alias/register";
+#!/usr/bin/env node
+import moduleAlias from "module-alias";
+import { join } from "path";
+moduleAlias.addAliases({
+  "~": join(__dirname, ".."),
+});
+
 import { Trie } from "@ethereumjs/trie";
 import { runCli, Command } from "command-line-interface";
 import { Level } from "level";
@@ -44,4 +50,4 @@ const pvm: Command<PVMOptions> = {
   },
 };
 
-runCli({ rootCommand: pvm, argv: process.argv });
+if (require.main === module) runCli({ rootCommand: pvm, argv: process.argv });
